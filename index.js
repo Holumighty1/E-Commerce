@@ -1,32 +1,82 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express")
+const dotenv = require("dotenv").config()
+const app = express()
+const connectDb = require("./Db")
+const authRoute = require("./route/authRoute")
+const CategoryRoute = require("./route/prdtCatRoute")
+const Route = require("./route/others")
+const productRoute = require("./route/product")
+const orderRoute = require("./route/order")
+const adminValidation = require("./middlewares/admin")
+const refresh = require("./route/refresh")
+const cors = require("cors")
 
-const app = express();
+const PORT =process.env.PORT || 8090
+connectDb()
+async (params) => {
+    app.use(express.json())
+}
+//app.use(cors())
 
-// Middleware/BodyParser
-app.use(express.json());
+app.listen(PORT, ()=>{
+    console.log(`server started at port ${PORT}`)
+})
 
-const PORT = process.env.PORT || 7000;
+async (params) => {
+    app.use(("/api/order"),orderRoute) 
+    app.use(("/api/category"), CategoryRoute)
+app.use(("/api/other"), Route)
+app.use(("/api/product"),productRoute)
+app.use(("/api/auth"), authRoute )
+app.use(("/api/refresh"),refresh )
+}
 
-const MONGODB_URL = "mongodb+srv://holumighty:holumighty@cluster0.enux45p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-mongoose.connect(MONGODB_URL)
-  .then(() => {
-    console.log("MongoDB Connected..");
-    app.listen(PORT, () => {
-      console.log(`Server is running....on port ${PORT}`);
+app.get(("/e-commerce"), (req,res) =>{
+    res.status(200).json({message:"welcome to e-commerce database"})
+})
+app.get(("/test-admin"),adminValidation, (req,res) =>{
+
+})
+
+/*app.post("/login-user", async (req, res) => {
+    try {
+
+        const {email, firstName, lastName, state, password } = req.body;
+
+    if (!email) {
+        res.status(400).json({ message: "Please add your email" });
+    }
+    if (!password) {
+        res.status(400).json({ message: "Please enter your password" });
+    }
+    
+    const existinguser = await Auth.findOne({ email });
+    if (existinguser) {
+        return res.status(400).json({ message: "User account already exist" });
+    }
+
+    if(password.length < 6) {
+       return res.status(400).json({ message: "Password must be a minimum of 6 characters" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new Auth({
+        email,
+        firstName,
+        lastName,
+        state,
+        password: hashedPassword
     });
-  })
- 
-  app.get("/", (request, response) => {
-    response.send("Welcome to the test server");
-  });
 
-app.post("/add-user", (request, response) => {
-    const newUser = request.body;
+    await newUser.save();
+    res.status(201).json({ 
+        message: "User registered successfully", 
+        newuser: {email, firstName, lastName, state}
+    })
 
-    response.json({
-        message: "User added successfully",
-        user: newUser     
-    });
-});
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});*/
