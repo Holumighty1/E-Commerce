@@ -32,7 +32,7 @@ app.use(("/api/refresh"),refresh )
 }
 
 
-app.get(("/e-commerce"), (req,res) =>{
+app.get(("/"), (req,res) =>{
     res.status(200).json({message:"welcome to e-commerce database"})
 })
 app.get(("/test-admin"),adminValidation, (req,res) =>{
