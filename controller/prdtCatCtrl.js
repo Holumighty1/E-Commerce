@@ -2,13 +2,13 @@ const Category = require("../models/prdtCat");
 
 const createCate = async (req, res) => {
     try {
-        const { categoryName, description } = req.body;
+        const { name, description } = req.body;
 
-        if (!categoryName) {
+        if (!name) {
             return res.status(400).json({ message: "Please input the category name" });
         }
 
-        const newCategory = new Category({  categoryName, description });
+        const newCategory = new Category({  name, description });
         await newCategory.save();
 
         res.status(201).json({ message: "Category created successfully", category: newCategory });
