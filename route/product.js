@@ -6,9 +6,6 @@ const adminValidation = require("../middlewares/admin")
 
 productRoute = express.Router()
 
-productRoute.post(("/create-product"),verifyToken,productValidation,createProduct)
-productRoute.get(("/get-all-product"),verifyToken, getAllProduct)
-productRoute.get(("/getOneProduct/:id"),verifyToken, getOneProduct)
 productRoute.post(("/create-product"),productValidation,verifyToken,adminValidation,createProduct)
 productRoute.get(("/get-all-product"),verifyToken,adminValidation, getAllProduct)
 productRoute.get(("/getOneProduct/:id"),verifyToken,adminValidation, getOneProduct)

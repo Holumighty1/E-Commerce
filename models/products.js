@@ -4,7 +4,7 @@ const Category = require("./prdtCat")
 Category()
 const productSchema = new mongoose.Schema(
     {
-    name:{type:String},
+    name:{type:String}, 
     discription:{type:String, default:""},
     image:{type:String, default:""},
     price:{type:Number, default:0},

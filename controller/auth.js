@@ -29,16 +29,14 @@ const UserLogin = async (req,res,next) =>{
    try {
      const {Email, Password} = req.body
      const Users = await User.findOne({Email})
-     //const Token = jwt.sign({id:Users._id,Name:Users.Name} ,`${process.env.ACCESS_TOKEN}`, {"expiresIn": "20m"})
      const Token = jwt.sign({id:Users._id,Name:Users.Name} ,`${process.env.ACCESS_TOKEN}`, {"expiresIn": "5h"})
      const refreshToken = jwt.sign({id:Users._id,Name:Users.Name} ,`${process.env.REFRESH_TOKEN}`, {"expiresIn": "30d"})
      res.status(200).json(
          {
              message:"Successful",
              Token,
-             Users
-             //Users,
-             //refreshToken
+             Users,
+             refreshToken
         }
         
      )
@@ -47,3 +45,5 @@ const UserLogin = async (req,res,next) =>{
    }
 
 }
+
+module.exports = {registerUser,UserLogin}
