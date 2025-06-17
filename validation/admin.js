@@ -1,4 +1,4 @@
-const User = require("../models/authModel")
+/*const User = require("../models/authModel")
 
 const adminVal = async(req, res, next)=>{
     const {id} = req.params
@@ -9,4 +9,4 @@ const adminVal = async(req, res, next)=>{
 next()
 }
 
-module.exports = adminVal
+module.exports = adminVal*/
